@@ -2,12 +2,34 @@
 <html>
     <head>
         <title>my web page</title>
+        <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     </head>
     <body>
-        <input type='text' id='input_text'>
+        <input type='text' id='input_text' placeholder="값을 입력해주세요...">
         <button id='input_data'>SQLite DB에 넣기</button>
-        <p><%=data %></p>
-
+        <table id='result_data'>
+            <tr>
+                <th>번호</th>
+                <th>데이터</th>
+                <th></th>
+            </tr>
+            <tbody>
+                <% if(data){ %>
+                    <% for(let i = 0; i< data.length; i++){ %>
+                        <tr>
+                            <td><%= data[i].id %></td>
+                            <td><%= data[i].data %></td>
+                            <td><button class='deleteData'>삭제</button></td>
+                        </tr>
+                    <% } %>
+                <% }else { %>
+                    <tr>
+                        <td>데이터가 없습니다.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
         <script src="./javascript/test.js"></script>
     </body>
 </html>
