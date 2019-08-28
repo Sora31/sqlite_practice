@@ -3,7 +3,7 @@ import TodoListTemplete from './components/TodoListTemplete'
 import TodoItemList from './components/TodoItemList'
 import Form from './components/Form';
 import Palette from './components/Palette'
-import { getList, postList } from './api/list'
+import { readList, createList, deleteList, updateList } from './api/list'
 
 const colors = ['#343a40', '#f03e3e', '#12b886', '#228ae6']
 
@@ -15,7 +15,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    const todos = await getList()
+    const todos = await readList()
     console.log('todos', todos)
     this.setState({todos})
           //   console.log(res)
@@ -33,8 +33,7 @@ class App extends Component {
   }
 
   handleCreate = (e) => {
-    const { input, todos } = this.state
-    postList(todos)
+    const { input, todos, color } = this.state
     this.setState({
       input: '',
       todos: todos.concat({
@@ -44,6 +43,11 @@ class App extends Component {
         color: color,
       })
     })
+    const data = {
+      text: input,
+      color: color
+    }
+    createList(data)
   }
 
   handleKeyPress = (e) => {
@@ -68,6 +72,11 @@ class App extends Component {
     this.setState({
       todos: nextTodos
     })
+    const data = {
+      id,
+      checked: !selected.checked
+    }
+    updateList(data)
   }
 
   handleRemove = (id) => {
@@ -75,6 +84,7 @@ class App extends Component {
     this.setState({
       todos: todos.filter(todo => todo.id !== id)
     })
+    deleteList(id)
   }
 
   handleSelectColor = (color) => {
